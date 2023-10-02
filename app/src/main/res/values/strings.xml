@@ -1,0 +1,7 @@
+<resources>
+    <string name="use_database_storage_label">Use database storage</string>
+    <string name="use_file_storage_label">Use file storage</string>
+    <string name="input_title">input: </string>
+    <string name="result_title">result: </string>
+    <string name="add_input_action">Add Input</string>
+</resources>

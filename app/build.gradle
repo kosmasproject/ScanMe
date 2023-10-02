@@ -1,0 +1,161 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    namespace 'com.kosmasfn.calculatorscan'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.kosmasfn.calculatorscan"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "variant"
+    productFlavors {
+        redfilesystem {
+            dimension "variant"
+            applicationIdSuffix '.redfilesystem'
+            resValue "string", "app_name", redfilesystemName
+            manifestPlaceholders = [
+                    icon     : "@mipmap/ic_launcher_red",
+                    appIcon  : "@mipmap/ic_launcher_red_round",
+                    roundIcon: "@mipmap/ic_launcher_red_round",
+                    appTheme : "@style/Theme.CalculatorScan.Red"
+            ]
+        }
+        redbuiltincamera {
+            dimension "variant"
+            applicationIdSuffix '.redbuiltincamera'
+            resValue "string", "app_name", redbuiltincameraName
+            manifestPlaceholders = [
+                    icon     : "@mipmap/ic_launcher_red",
+                    appIcon  : "@mipmap/ic_launcher_red_round",
+                    roundIcon: "@mipmap/ic_launcher_red_round",
+                    appTheme : "@style/Theme.CalculatorScan.Red"
+            ]
+        }
+        greenfilesystem {
+            dimension "variant"
+            applicationIdSuffix '.greenfilesystem'
+            resValue "string", "app_name", greenfilesystemName
+            manifestPlaceholders = [
+                    icon     : "@mipmap/ic_launcher_green",
+                    appIcon  : "@mipmap/ic_launcher_green_round",
+                    roundIcon: "@mipmap/ic_launcher_green_round",
+                    appTheme : "@style/Theme.CalculatorScan.Green"
+            ]
+        }
+        greenbuiltincamera {
+            dimension "variant"
+            applicationIdSuffix '.greenbuiltincamera'
+            resValue "string", "app_name", greenbuiltincameraName
+            manifestPlaceholders = [
+                    icon     : "@mipmap/ic_launcher_green",
+                    appIcon  : "@mipmap/ic_launcher_green_round",
+                    roundIcon: "@mipmap/ic_launcher_green_round",
+                    appTheme : "@style/Theme.CalculatorScan.Green"
+            ]
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outFileName = output.outputFile.name
+            outFileName = outFileName.replace("-debug", "")
+            outFileName = outFileName.replace("-release", "")
+            if (outFileName.contains('filesystem')) outFileName = outFileName.replace("filesystem", "-filesystem")
+            if (outFileName.contains('builtincamera')) outFileName = outFileName.replace("builtincamera", "-built-in-camera")
+            if (outFileName.contains('--')) outFileName = outFileName.replace("--", "-")
+            output.outputFileName = outFileName
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.core:core-ktx:1.10.0'
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+
+    //text-recognition
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.2'
+    implementation 'com.google.android.gms:play-services-vision:20.1.3'
+
+    //PermissionX
+    implementation 'com.guolindev.permissionx:permissionx:1.7.1'
+
+    //ImagePicker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //Lottie
+    implementation 'com.airbnb.android:lottie:4.2.0'
+    implementation 'androidx.test:core-ktx:1.5.0'
+
+    def room_version = "2.5.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+
+    //Coroutines
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.20'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+
+    //ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1'
+
+    //Compose
+    implementation 'androidx.activity:activity-compose:1.4.0'
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    //Encrypted File
+    implementation "androidx.security:security-crypto:1.1.0-alpha06"
+    implementation "androidx.security:security-identity-credential:1.0.0-alpha03"
+    implementation "androidx.security:security-app-authenticator:1.0.0-alpha02"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
